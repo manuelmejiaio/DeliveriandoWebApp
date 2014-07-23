@@ -1,0 +1,81 @@
+﻿@using DeliveriandoWebApp.Models
+@using Microsoft.Ajax.Utilities
+@model IEnumerable<DeliveriandoWebApp.Models.OrdenModels>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<hgroup class="title">
+    <h2>Todas tus Ordenes</h2>
+</hgroup>
+
+
+<section id="loginForm">
+    
+   <style>
+    table, td, th {
+        border: 1px solid black;
+    }
+</style>
+@*Estilo de la tabla*@
+<table>
+    <tr>
+        <th>&nbsp Restaurante &nbsp
+        </th>
+        <th>&nbsp Fecha  &nbsp
+        </th>
+        <th>&nbsp Estatus  &nbsp
+        </th>
+         <th>&nbsp Total  &nbsp
+        </th>
+        <th>&nbsp Opción &nbsp
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.OrderByDescending(n => n.product.Fecha).GroupBy(n => n.IdOrdenesUnicas).Select(x => x.First())) //Para ordernar por fecha
+    {
+        double valor = item.finalTotal;
+        string finalTotal = valor.ToString("0.00"); //force para tener 2 cifras decimales fijas.
+    
+        <tr>
+            <td>
+                &nbsp @Html.DisplayFor(modelItem => item.product.NombreRestaurante)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                &nbsp @Html.DisplayFor(modelItem => item.product.Fecha)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                &nbsp @Html.DisplayFor(modelItem => item.OrdenEstatus)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                &nbsp RD$ @Html.DisplayFor(modelItem => finalTotal)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+
+            <td>
+
+                @*&nbsp; @Html.ActionLink("Detalles", "Details", new { id=item.id }, new  { @class = "btn",onclick="myFunction();" }) |*@
+                &nbsp;<button class="btn" onclick="DetallesDeLaOrden(@item.id);">Ver Detalles</button>@*|
+               @Html.ActionLink("Enviar", "OrderSentMail", new { id = item.id }, new { @class = "btn" })  |
+               @Html.ActionLink("Borrar", "Delete", new { id = item.id }, new { @class = "btn" })*@
+
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section Scripts{
+    @*//Aqui se envia el id a Orden/filtroDeGuid y recibe un JSON con los productos de ese id.
+        //Nota: se envia el id del primer producto de esa orden, para luego en el controllador buscar el GUID.*@
+    <script src="~/js/JSParaClientes.js" ></script>
+}
+</section>
+
+
+<section class="social" id="socialLoginForm">
+
+</section>

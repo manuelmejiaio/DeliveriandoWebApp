@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "DeliveriesRestauranteView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<hgroup class="title">
+    <h2>@ViewBag.NombreRest: Deliveries</h2>
+</hgroup>
+
+@*Estilo de la tabla y algunos botones*@
+<style>
+    table, td, th {
+        border: 1px solid black;
+    }
+
+    .botones {
+        font-family: Arial;
+        font-size: 12px;
+        color: #fff;
+        height: 25px; 
+        width: 130px;
+        padding-top: 1.5px; 
+        border: 2px solid #000;
+        background-color: #555555;
+        margin-bottom: 1px;
+        margin-top: 20px;
+    }  
+</style>
+
+
+@*Boton para ver todas las ordernes*@
+    <form method="link" action="RestauranteView" style="display:inline">
+        <button class="botones" ><b>ORDENES</b> </button>
+    </form>
+    <form method="link" action="AllRestauranteView" style="display:inline">
+        <button class="botones" ><b>VER TODAS</b> </button>
+    </form>
+    <form method="link" action="AllCancelOrdersRestauranteView" style="display:inline">
+        <button class="botones" ><b>VER CANCELADAS</b> </button>
+    </form>
+    <form method="link" action="DeliveriesRestauranteView" style="display:inline">
+        <button class="botones" ><b>VER DELIVERIES</b> </button>
+    </form>
+
+
+
+
+
+<div id="mitabla"> 
+    
+    @Scripts.Render("~/bundles/jquery")      
+    <div id="map_canvas" style="width: 90%; height: 420px;border-style:solid;border-width:5px;border-color:red">  </div> 
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>  
+ <script type="text/javascript">  
+   $(document).ready(function () {  
+       initialize();  
+   });  
+
+   function initialize() {
+
+     var coordenadas = @Html.Raw(Json.Encode(@ViewBag.Coordenadas));  //La lista de coordenadas
+       console.log(coordenadas);
+
+     var mapOptions = {  
+         center: new google.maps.LatLng("18.462884", "-69.936005"),
+         zoom: 13,
+         mapTypeId: google.maps.MapTypeId.ROADMAP  
+     };  
+     var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+
+     coordenadas.forEach(function (entry) {
+         marker = new google.maps.Marker({
+             position: new google.maps.LatLng(entry.Latitud, entry.Longitud),
+             map: map,
+             icon: detallesDeMarcadores(entry.IdRestaurante),
+             title: "Delivery: #" + entry.IdMotorista
+         });
+     });
+
+     function detallesDeMarcadores(IdRestaurante)
+     {
+         var markerLogo;
+
+         if(IdRestaurante == 1){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerYokomo.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+         
+         if(IdRestaurante == 2){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerChefPepper.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+
+         if(IdRestaurante == 3){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerPizzarelli.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+         
+         if(IdRestaurante == 4){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerRed.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+         
+         if(IdRestaurante == 5){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerKieroPatata.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+         
+         if(IdRestaurante == 6){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerKFC.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+         
+         if(IdRestaurante == 7){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerYao.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+
+      
+         return markerLogo;
+     }
+
+      
+   }  
+ </script>  
+</div>
+ 
+@section Scripts{
+
+    <script>
+        setInterval(function () {
+            $("#mitabla").load('/Orden/PartialViewDeliveriesRestaurante');
+            console.log("hello");
+        }, 12000);
+    </script>
+}

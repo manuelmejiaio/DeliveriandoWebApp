@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+        <meta charset="utf-8" />
+        <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+        <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <meta name="viewport" content="width=device-width" />
+        @Styles.Render("~/Content/css")
+        @Scripts.Render("~/bundles/modernizr")
+
+    </head>
+    <body>
+        <header>
+
+            <section id="login" style="margin-right: 85px;">
+                 @Html.Partial("_LoginPartial")
+            </section>
+
+
+
+                        <ul id="menu">
+                            <li style="margin-right:380px;" ><a href="@Url.Action("Index", "Home")"><img src="~/Images/DeliveriandoOficialLogo.png" style="background-color:white;" /></a></li>
+                            <li>@Html.ActionLink("Inicio", "Index", "Home") |</li>
+                            <li>@Html.ActionLink("Preguntas", "FAQ", "Home") |</li>
+                            <li>@Html.ActionLink("Ordenes", "ClienteView", "Orden") </li>
+                           <li> @using (Html.BeginForm("Index", "Home", FormMethod.Get))
+                            {
+                             <input type="text" name="SearchString" placeholder="Nombre del restaurante" style="height: 30px;width: 168px;"  />
+                                 <button type="submit" style="margin-top: -10px; margin-left:-5px; height: 29px;width: 35px;"><img src="~/Images/Otros/490px-Magnifying_glass_icon.svg.png" style="height: 18px; width: 18px; margin-bottom:8px;" /></button>
+
+                            }</li>
+
+                        </ul>
+          
+
+        </header>
+        <div id="body">
+            @RenderSection("featured", required: false)       
+            <section class="content-wrapper main-content clear-fix">
+                @RenderBody()
+            </section>
+        </div>
+        <footer>
+            <div class="content-wrapper">
+                <div class="float-left">
+                    @*<p>&copy; @DateTime.Now.Year - My ASP.NET MVC Application</p>*@
+                </div>
+            </div>
+        </footer>
+
+        @Scripts.Render("~/bundles/jquery")
+
+        @RenderSection("scripts", required: false)
+
+    </body>
+</html>

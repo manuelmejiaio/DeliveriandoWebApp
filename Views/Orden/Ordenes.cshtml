@@ -1,0 +1,97 @@
+﻿@model IEnumerable<DeliveriandoWebApp.Models.OrdenModels>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Ordenes</h2>
+
+
+<table>
+    <tr>
+        <td>
+            Cliente ID
+        </td>
+        <td>
+            Restaurante Id
+        </td>
+        <td>
+            Plato ID
+        </td>
+        <td>
+            Cantidad
+        </td>
+        <td>
+            Pago total
+        </td>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCliente)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdRestaurante)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdPlato)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaditadPlato)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PagoTotal)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+                @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+            </td>
+        </tr>
+    }
+
+</table>
+
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+
+
+<div class="row-fluid news">
+            <h3>Formas de pago</h3>
+        </div>
+        <div class="row-fluid">
+            <div class="span3"> <!-- Restaurante1............................................ -->
+
+                <a href=@Url.Action("Yokomo","Restaurantes")>
+                    <img src="~/Images/FormasDePago/money.png" > </a>
+                <h4>Efectivo</h4>
+                
+
+            </div>
+            
+
+
+
+            <div class="span3"> <!-- Restaurante2............................................ -->
+
+                <a href=@Url.Action("CheffPepper","Restaurantes")>
+                    <img src="~/Images/FormasDePago/creditCard.png" > </a>
+                <h4>Tarjeta</h4>
+                
+
+            </div>
+            
+            
+
+
+            <div class="span3"> <!-- Restaurante3............................................ -->
+
+                <a href=@Url.Action("Pizzarelli","Restaurantes")>
+                    <img src="~/Images/FormasDePago/transferencia.png" > </a>
+                <h4>Deposito</h4>
+                
+
+            </div>

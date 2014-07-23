@@ -1,0 +1,86 @@
+﻿@using DeliveriandoWebApp.Models
+@using Microsoft.Ajax.Utilities
+@model IEnumerable<DeliveriandoWebApp.Models.OrdenModels>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+             <p>Fecha &nbsp</p>
+        </th> 
+        <th>
+            <p>IdUsuario  &nbsp</p>
+        </th> 
+        <th>
+            <p>IdRestaurante  &nbsp</p>
+        </th> 
+        <th>
+            <p>IdOrden  &nbsp</p>
+        </th> 
+        <th>
+            <p>IdPlato  &nbsp</p>
+        </th> 
+        <th>
+            <p>Plato  &nbsp</p>
+        </th>
+        <th>
+            <p>Precio  &nbsp</p>
+        </th>
+        <th>
+            <p>Cantidad  &nbsp</p>
+        </th>
+        <th>
+            <p>Total  &nbsp</p>
+        </th>
+        <th></th>
+    </tr>
+    <meta http-equiv="refresh" content="5">
+@foreach (var item in Model.OrderByDescending(n => n.product.Fecha)) //Para ordernar por fecha
+{
+    
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.product.Fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.product.IdUsuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.product.IdRestaurante)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.product.id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.product.nombre)
+        </td>
+        <td>RD$ 
+            @Html.DisplayFor(modelItem => item.product.precio)
+        </td>
+  
+        <td>
+            @Html.DisplayFor(modelItem => item.quantity)
+        </td>
+        <td>RD$ 
+            @Html.DisplayFor(modelItem => item.extPrice)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.id })
+        </td>
+    </tr>
+}
+
+</table>

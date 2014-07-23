@@ -1,0 +1,91 @@
+﻿@model DeliveriandoWebApp.Models.OrdenModels
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>OrdenModels</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.product.nombre)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.product.nombre)
+            @Html.ValidationMessageFor(model => model.product.nombre)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.product.precio)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.product.precio)
+            @Html.ValidationMessageFor(model => model.product.precio)
+        </div>
+        
+         <div class="editor-label">
+            @Html.LabelFor(model => model.product.IdRestaurante)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.product.IdRestaurante)
+            @Html.ValidationMessageFor(model => model.product.IdRestaurante)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.product.isSelected)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.product.isSelected)
+            @Html.ValidationMessageFor(model => model.product.isSelected)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.product.shortDesc)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.product.shortDesc)
+            @Html.ValidationMessageFor(model => model.product.shortDesc)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.product.stateHasChanged)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.product.stateHasChanged)
+            @Html.ValidationMessageFor(model => model.product.stateHasChanged)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.quantity)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.quantity)
+            @Html.ValidationMessageFor(model => model.quantity)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.extPrice)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.extPrice)
+            @Html.ValidationMessageFor(model => model.extPrice)
+        </div>
+
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

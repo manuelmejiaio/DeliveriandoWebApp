@@ -1,0 +1,57 @@
+﻿@model DeliveriandoWebApp.Models.PlatoModels
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>PlatoModels</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IdRestaurante)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IdRestaurante)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Nombre)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Nombre)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Categoria)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Categoria)
+    </div>
+    
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.IdCategoria)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.IdCategoria)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Precio)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Precio)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Descripcion)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Descripcion)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

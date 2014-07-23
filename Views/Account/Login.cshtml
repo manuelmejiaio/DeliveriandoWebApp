@@ -1,0 +1,52 @@
+﻿@model DeliveriandoWebApp.Models.LoginModel
+
+@{
+    ViewBag.Title = "Iniciar Sesión";
+}
+
+<hgroup  class="title" >
+    <h1>@ViewBag.Title.</h1>
+    <h3>Usa tu cuenta registrada.</h3>
+</hgroup>
+
+<section id="loginForm">
+
+@using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Log in Form</legend>
+        
+                <p>Correo Electrónico</p>
+                @Html.TextBoxFor(m => m.UserName )
+                @Html.ValidationMessageFor(m => m.UserName)<br>
+            
+                 <p>Contraseña</p>
+                @Html.PasswordFor(m => m.Password)
+                @Html.ValidationMessageFor(m => m.Password)<br>
+            
+                @Html.CheckBoxFor(m => m.RememberMe)
+                @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })
+        
+        <br>
+        <input type="submit" value="Iniciar" />
+    </fieldset>
+    <p>
+        <br> <br>
+        @Html.ActionLink("Regístrate", "Register") Si no tienes una cuenta.
+    </p>
+}
+</section>
+
+@*<section class="social" id="socialLoginForm">
+    <h2>Use another service to log in.</h2>
+    @Html.Action("ExternalLoginsList", new { ReturnUrl = ViewBag.ReturnUrl })
+</section>*@
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

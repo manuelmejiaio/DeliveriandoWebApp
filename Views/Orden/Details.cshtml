@@ -1,0 +1,86 @@
+﻿@model DeliveriandoWebApp.Models.OrdenModels
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Detalles del cliente</h2>
+
+<fieldset>
+    <legend>OrdenModels</legend>
+    
+    <div>
+       <p><b>Nombre:</b> @ViewBag.UserName </p> 
+    </div>
+    
+    <div>
+       @*<p><b>Forma de pago:</b> @Html.DisplayFor(model => model.product.PagoConTarjeta) </p> *@
+    </div>
+
+    <div>
+       <p><b>Número de teléfono:</b> @Html.DisplayFor(model => model.product.NumeroUsuario) </p> 
+       
+    </div>
+
+    <div>
+        <p><b>Dirección:</b> @Html.DisplayFor(model => model.product.DireccionUsuario)</p> <br/><br/>
+        
+    </div>
+
+    @*    <div class="display-label">
+         @Html.DisplayNameFor(model => model.product.precio)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.product.precio)
+    </div>
+    
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.product.IdRestaurante)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.product.IdRestaurante)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.product.isSelected)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.product.isSelected)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.product.shortDesc)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.product.shortDesc)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.product.stateHasChanged)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.product.stateHasChanged)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.quantity)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.quantity)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.extPrice)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.extPrice)
+    </div>*@
+    
+    
+    
+
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

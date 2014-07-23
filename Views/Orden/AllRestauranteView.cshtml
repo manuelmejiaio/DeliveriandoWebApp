@@ -1,0 +1,103 @@
+﻿@using DeliveriandoWebApp.Models
+@using Microsoft.Ajax.Utilities
+@model IEnumerable<DeliveriandoWebApp.Models.OrdenModels>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<hgroup class="title">
+    <h2>@ViewBag.NombreRest: Todas las ordernes</h2>
+</hgroup>
+
+@*Estilo de la tabla y algunos botones*@
+<style>
+    table, td, th {
+        border: 1px solid black;
+    }
+
+    .botones {
+        font-family: Arial;
+        font-size: 12px;
+        color: #fff;
+        height: 25px; 
+        width: 130px;
+        padding-top: 1.5px; 
+        border: 2px solid #000;
+        background-color: #555555;
+        margin-bottom: -2px;
+        margin-top: 20px;
+    }  
+</style>
+
+
+@*Boton para ver todas las ordernes*@
+    <form method="link" action="RestauranteView" style="display:inline">
+        <button class="botones" ><b>ORDENES</b> </button>
+    </form>
+    <form method="link" action="AllRestauranteView" style="display:inline">
+        <button class="botones" ><b>VER TODAS</b> </button>
+    </form>
+    <form method="link" action="AllCancelOrdersRestauranteView" style="display:inline">
+        <button class="botones" ><b>VER CANCELADAS</b> </button>
+    </form>
+    <form method="link" action="DeliveriesRestauranteView" style="display:inline">
+        <button class="botones" ><b>VER DELIVERIES</b> </button>
+    </form>
+
+
+<table>
+    <tr>
+        <th>&nbsp Fecha  &nbsp
+        </th>
+        <th>&nbsp Teléfono  &nbsp
+        </th>
+        <th>&nbsp Total  &nbsp
+        </th>
+        <th>&nbsp Estatus  &nbsp
+        </th>
+        <th>&nbsp Opción &nbsp
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.OrderByDescending(n => n.product.Fecha).GroupBy(n => n.IdOrdenesUnicas).Select(x => x.First())) //Para ordernar por fecha
+    {
+        double valor = item.finalTotal;
+        string finalTotal = valor.ToString("0.00"); //force para tener 2 cifras decimales fijas.
+    
+        <tr>
+            <td>
+                &nbsp @Html.DisplayFor(modelItem => item.product.Fecha)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                &nbsp @Html.DisplayFor(modelItem => item.product.NumeroUsuario)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+
+            <td> 
+                &nbsp RD$ @Html.DisplayFor(modelItem => finalTotal)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+
+            <td>
+                &nbsp @Html.DisplayFor(modelItem => item.OrdenEstatus)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+
+                @*&nbsp; @Html.ActionLink("Detalles", "Details", new { id=item.id }, new  { @class = "btn",onclick="myFunction();" }) |*@
+                &nbsp;<button class="btn" onclick="DetallesDeLaOrden(@item.id);">Detalles</button>@*|
+               @Html.ActionLink("Enviar", "OrderSentMail", new { id = item.id }, new { @class = "btn" })  |
+               @Html.ActionLink("Borrar", "Delete", new { id = item.id }, new { @class = "btn" })*@
+
+
+            </td>
+        </tr>
+    }
+
+</table>
+
+
+@section Scripts{
+    @*//Aqui se envia el id a Orden/filtroDeGuid y recibe un JSON con los productos de ese id.
+        //Nota: se envia el id del primer producto de esa orden, para luego en el controllador buscar el GUID.*@
+    <script src="~/js/JSParaRestaurantes.js" ></script>
+}

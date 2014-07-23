@@ -1,0 +1,106 @@
+﻿@using DeliveriandoWebApp.Models
+@using Microsoft.Ajax.Utilities
+
+<html>
+<head>
+    <style type="text/css">
+        div {
+            font-family: Arial,Verdana, Sans-Serif;
+            font-size: 14px;
+        }
+
+        #mail-message {
+            padding: 10px;
+        }
+
+        #mail-footer {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="mail-message">
+    </div>
+    <div id="mail-footer">
+        <img src="http://deliveriando.apphb.com/Images/DeliveriandoOficialLogo.png" /><br />
+        <br />
+        <br />
+
+        Gracias por ordenar con nosotros, su orden es: 
+        <br />
+        <br />
+        <br />
+        <br />
+
+        <section id="loginForm">
+            <table border="1">
+                <tr>
+                    <th>
+                        <p>Restaurante </p>
+                    </th>
+                    <th>
+                        <p>Fecha  </p>
+                    </th>
+                    <th>
+                        <p>Plato  </p>
+                    </th>
+                    <th>
+                        <p>Cantidad </p>
+                    </th>
+                    <th>
+                        <p>Precio c/u  </p>
+                    </th>
+                </tr>
+
+                @{
+                    Guid ticket = new Guid(); //GUID nunca puede ser null se iguala a = new Guid()
+                    double subtotal = 0;
+                    double itbis = 0;
+                    double finalTotal = 0;
+                    
+                        
+                    foreach (var item in ((List<OrdenModels>)ViewBag.Products).OrderByDescending(n => n.product.Fecha))//Para ordernar por fecha
+                    {
+                        subtotal = item.total;
+                        itbis = item.ITBIS;
+                        finalTotal = item.finalTotal;
+                        ticket = item.IdOrdenesUnicas;
+                        
+                    <tr>
+
+                        <td>@Html.DisplayFor(modelItem => item.product.NombreRestaurante)&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.product.Fecha)&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.product.nombre)&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.quantity)&nbsp;&nbsp;&nbsp;
+                        </td>
+                        <td>RD$ 
+                            @Html.DisplayFor(modelItem => item.product.precio)&nbsp;&nbsp;&nbsp;
+                        </td>
+
+                    </tr>
+                }
+                    
+                   
+                }
+            </table>
+                    <p><b>Sub-Total:</b> RD$ @Html.Raw(subtotal)  </p>
+                    <p><b>ITBIS:</b>  RD$ @Html.Raw(itbis)  </p>
+                    <h2>Total a pagar: RD$ @Html.Raw(finalTotal)  </h2>
+                   @*<p>Numero de orden: @Html.Raw(ticket) </p>*@ 
+        </section>
+        
+
+
+
+        <br />
+        <br />
+        Nota: Este pendiente de su correo, pronto la orden será enviada y podrá saber su ubicación.
+        <br />
+        <br />
+        <a href="deliveriando.apphb.com/Orden/ClienteView">www.deliveriando.com.do/Orden/ClienteView</a>
+    </div>
+</body>
+</html>

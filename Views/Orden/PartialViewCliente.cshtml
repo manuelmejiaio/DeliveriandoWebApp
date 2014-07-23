@@ -1,0 +1,156 @@
+﻿@using DeliveriandoWebApp.Models
+@using Microsoft.Ajax.Utilities
+@model IEnumerable<DeliveriandoWebApp.Models.OrdenModels>
+
+@{
+    Layout = null;
+}
+
+
+ 
+<section id="loginForm" style="width: 580px">
+    @*<form method="link" action="AllClienteView"> <input type="submit" style="font-size:12px; height:20px; width:67px; padding-top: 1px; border:2px solid #000;" value="Ver todas" ></form >*@
+    <form method="link" action="AllClienteView" style="display:inline">
+        <button class="botones" ><b>VER TODAS</b> </button>
+    </form>
+  
+<style>
+    table, td, th {
+        border: 1px solid black;
+    }
+
+    .botones {
+        font-family: Arial;
+        font-size: 12px;
+        color: #fff;
+        height: 25px; 
+        width: 130px;
+        padding-top: 1.5px; 
+        border: 2px solid #000;
+        background-color: #555555;
+        margin-bottom: -2px;
+        margin-top: 20px;
+    }  
+    
+</style>
+@*Estilo de la tabla*@
+<table>
+    <tr>
+        <th>&nbsp Restaurante &nbsp
+        </th>
+        <th>&nbsp Estatus  &nbsp
+        </th>
+         <th>&nbsp Total  &nbsp
+        </th>
+        <th>&nbsp Opción &nbsp
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.OrderByDescending(n => n.product.Fecha).GroupBy(n => n.IdOrdenesUnicas).Select(x => x.First())) //Para ordernar por fecha
+    {
+        double valor = item.finalTotal;
+        string finalTotal = valor.ToString("0.00"); //force para tener 2 cifras decimales fijas.
+    
+        <tr>
+            <td>
+                &nbsp @Html.DisplayFor(modelItem => item.product.NombreRestaurante)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                &nbsp @Html.DisplayFor(modelItem => item.OrdenEstatus) &nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                &nbsp RD$ @Html.DisplayFor(modelItem => finalTotal)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+
+            <td>
+
+                @*&nbsp; @Html.ActionLink("Detalles", "Details", new { id=item.id }, new  { @class = "btn",onclick="myFunction();" }) |*@
+                &nbsp;<button class="btn" onclick="DetallesDeLaOrden(@item.id);">Ver Detalles</button>|
+                &nbsp;<button class="btn" onclick="ComentarLaOrden(@item.id);">Comentar</button>
+               @*|@Html.ActionLink("Enviar", "OrderSentMail", new { id = item.id }, new { @class = "btn" })  |
+               @Html.ActionLink("Borrar", "Delete", new { id = item.id }, new { @class = "btn" })*@
+
+
+            </td>
+        </tr>
+    }
+
+</table>
+</section>
+   
+ 
+<section  class="social" id="socialLoginForm">
+    
+    @Scripts.Render("~/bundles/jquery")      
+    <div id="map_canvas" style="width: 620px; height: 380px;border-style:solid;border-width:5px;border-color:red">  </div>
+
+ <script type="text/javascript">  
+     $(document).ready(function () {  
+         initialize();  
+     });  
+
+    function initialize() {
+
+         var coordenadas = @Html.Raw(Json.Encode(@ViewBag.Coordenadas));  //La lista de coordenadas
+       console.log(coordenadas);
+
+           
+       var mapOptions = {  
+           center: new google.maps.LatLng("18.462884", "-69.936005"),
+           zoom: 13,
+           mapTypeId: google.maps.MapTypeId.ROADMAP  
+       };  
+       var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+
+       coordenadas.forEach(function (entry) {
+           marker = new google.maps.Marker({
+               position: new google.maps.LatLng(entry.Latitud, entry.Longitud),
+               map: map,
+               icon: detallesDeMarcadores(entry.IdRestaurante)
+           });
+       });
+
+       function detallesDeMarcadores(IdRestaurante)
+       {
+           var markerLogo;
+
+           if(IdRestaurante == 1){
+               markerLogo = new google.maps.MarkerImage("/Images/Marker/markerYokomo.png",
+               null, null,null, new google.maps.Size(54, 80));  }
+         
+           if(IdRestaurante == 2){
+               markerLogo = new google.maps.MarkerImage("/Images/Marker/markerChefPepper.png",
+               null, null,null, new google.maps.Size(54, 80));  }
+
+           if(IdRestaurante == 3){
+               markerLogo = new google.maps.MarkerImage("/Images/Marker/markerPizzarelli.png",
+               null, null,null, new google.maps.Size(54, 80));  }
+         
+           if(IdRestaurante == 4){
+               markerLogo = new google.maps.MarkerImage("/Images/Marker/markerRed.png",
+               null, null,null, new google.maps.Size(54, 80));  }
+         
+           if(IdRestaurante == 5){
+               markerLogo = new google.maps.MarkerImage("/Images/Marker/markerKieroPatata.png",
+               null, null,null, new google.maps.Size(54, 80));  }
+         
+           if(IdRestaurante == 6){
+               markerLogo = new google.maps.MarkerImage("/Images/Marker/markerKFC.png",
+               null, null,null, new google.maps.Size(54, 80));  }
+         
+           if(IdRestaurante == 7){
+               markerLogo = new google.maps.MarkerImage("/Images/Marker/markerYao.png",
+               null, null,null, new google.maps.Size(54, 80));  }
+
+      
+           return markerLogo;
+       }
+
+      
+   } 
+ </script>  
+    
+</section> 
+    

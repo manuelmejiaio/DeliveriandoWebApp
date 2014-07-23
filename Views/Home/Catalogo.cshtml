@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Catalogo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@model IEnumerable<DeliveriandoWebApp.Models.RestauranteModels>
+
+
+
+<h2>Catálogo</h2>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+@using (Html.BeginForm("Catalogo", "Home", FormMethod.Get))
+{
+   <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)  
+        <input type="submit" value="Search" />
+    </p>
+}
+
+
+
+
+<link href="~/Content/owl.theme.css" rel="stylesheet" />
+<link href="~/Content/owl.carousel.css" rel="stylesheet" />
+
+<div id="owl-demo">
+@foreach (var item in Model )
+     {
+
+          
+        <div class="item">
+            <a href=@Url.Action("Index", "Product", new { id=item.ID })> <img src="@item.LogoLink"/></a>
+            <h4 style=" margin-left: 5px; margin-top:-12px"> @Html.DisplayFor(modelItem => item.Nombre)</h4>
+        </div>
+
+
+    }
+</div>
+
+
+
+<style>
+#owl-demo .item{
+  margin: 3px;
+
+}
+#owl-demo .item img{
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top:-20px;
+}
+</style>
+
+@section Scripts{
+
+    <script src="~/Scripts/owl.carousel.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            $("#owl-demo").owlCarousel({
+
+                autoPlay: 3000, //Set AutoPlay to 3 seconds
+
+                items: 3,
+                itemsDesktop: [1199, 3],
+                itemsDesktopSmall: [979, 3]
+
+            });
+
+        });
+
+    </script>
+    
+  
+}
+
+
+
+

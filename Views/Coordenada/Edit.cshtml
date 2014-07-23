@@ -1,0 +1,53 @@
+﻿@model DeliveriandoWebApp.Models.CoordenadasModels
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>CoordenadasModels</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Latitud)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Latitud)
+            @Html.ValidationMessageFor(model => model.Latitud)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Longitud)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Longitud)
+            @Html.ValidationMessageFor(model => model.Longitud)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Fecha)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Fecha)
+            @Html.ValidationMessageFor(model => model.Fecha)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,227 @@
+﻿@{
+    ViewBag.Title = "CheckOut";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@model IEnumerable<DeliveriandoWebApp.Models.OrdenModels>
+
+
+
+<hgroup class="title">
+    <h2>Pago y Entrega</h2>
+</hgroup>
+
+<style>
+    .Dad {
+        margin-left:15%;
+        margin-top:2%;
+
+    }
+
+    .Son1 {
+        width:32%;
+        height:17%;
+        display:inline-block;
+        margin-right:10%;
+    }
+
+
+    .takeout {}
+    .delivery {}
+
+
+    .Son2 {
+        width:32%;
+        height:17%;
+        display:inline-block;
+        margin-right:10%;
+        margin-top:30px;
+    }
+
+
+</style>
+
+<div class="Dad">
+
+<div class="Son1 takeout">
+
+            <button onclick="SeleccionCheckout(1)"> <img src="~/Images/Checkout/takeout.png" /> </button>
+            <h4>Takeout</h4>
+
+</div>
+
+<div class="Son1 delivery">
+
+            <button> <img src="~/Images/Checkout/delivery.png" /> </button>
+            <h4>Delivery</h4>
+
+</div>
+
+
+
+<div class="Son2">
+
+            <button onclick="SeleccionCheckout(2)"> <img src="~/Images/Checkout/creditCard.png" /> </button>
+            <h4>Tarjeta</h4>
+
+</div>
+
+<div class="Son2">
+
+            <button onclick="SeleccionCheckout(3)"> <img src="~/Images/Checkout/money.png" /> </button>
+            <h4>Efectivo</h4>
+
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        var formaDeEntrega = 0;
+        var formaDePago = 0;
+        var numeroDeTarjeta = 0;
+        var fechaDeExpiracionDeTarjeta = 0;
+        var direccionUsuario = '@ViewBag.DireccionUsuario';
+
+       function SeleccionCheckout(seleccion) {
+           
+            if (seleccion == 1) //Si es takeout
+            {
+                formaDeEntrega = 1;
+                bootbox.alert("<h3>Gracias por ordenar con nosotros!</h3><br>Este atento, podra venir a buscar su orden en unos minutos.", function () {
+                    EnvioSeleccionDelCheckOut();
+                });
+            }
+
+            if (seleccion == 2) //Si es Delivery y tarjeta
+            {
+                formaDeEntrega = 2;
+                formaDePago = 1;
+
+                bootbox.prompt("Introduzca el número de su tarjeta", function (tarjeta) {
+                    if (tarjeta == null){} //por si cancenla
+                    else if (tarjeta.length != 16 || isNaN(tarjeta) == true)
+                    {
+                        bootbox.alert("Error, Intente de nuevo.", function () {SeleccionCheckout(2);});  
+                    }
+                    else {
+                        numeroDeTarjeta = tarjeta;
+                        bootbox.prompt("Introduzca la fecha de expiración <br> <h6>NOTA: escriba el mes y el año corrido. Ejemplo: 0214</h6>", function (fecha) {
+                            if (fecha == null) { } //por si cancenla 
+                            else if (fecha.length != 4 || isNaN(fecha) == true)
+                            {
+                                bootbox.alert("Error, Intente de nuevo.", function () { SeleccionCheckout(2); });
+                            }
+                            else {
+                                fechaDeExpiracionDeTarjeta = fecha;
+                                Direccion();
+                            }
+                        });
+                    }
+                });
+
+            }
+
+            if (seleccion == 3) //Si es Delivery y efectivo
+            {
+                formaDeEntrega = 2;
+                formaDePago = 2;
+                Direccion();
+            }
+
+           
+       }
+
+
+       
+        
+
+        function Direccion() {
+            bootbox.dialog({
+                message: direccionUsuario,
+                title: "¿Es esta su  dirección actual?",
+                buttons: {
+                    success: {
+                        label: "Si",
+                        className: "btn-danger",
+                        callback: function () {
+                            EnvioSeleccionDelCheckOut();
+                        }
+                    },
+                    danger: {
+                        label: "No",
+                        className: "btn-default",
+                        callback: function () {
+                            bootbox.prompt("¿Cuál es su dirección actual?", function (nuevaDireccion) {
+                                if (nuevaDireccion === null || nuevaDireccion.length < 10) {
+                                    bootbox.alert("Error, ingrese una dirección correcta.", function () { Direccion(); });
+                                }
+                                else {
+                                    bootbox.alert("Dirección actual: <b>" + nuevaDireccion + "</b>", function () {
+                                        direccionUsuario = nuevaDireccion;
+                                        EnvioSeleccionDelCheckOut();
+                                    });
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+
+        }
+
+        
+
+        function EnvioSeleccionDelCheckOut() {
+            $.ajax({
+                type: "POST",
+                url: '/Orden/SeleccionDelCheckOut',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({ formaDeEntrega: formaDeEntrega, formaDePago: formaDePago, numeroDeTarjeta: numeroDeTarjeta, fechaDeExpiracionDeTarjeta: fechaDeExpiracionDeTarjeta, direccionUsuario: direccionUsuario }),
+                dataType: "json",
+                success: function (data) { window.location.href = "/Orden/ClienteView"; }
+            });
+        }
+
+
+        //Jquery---------------------------------------------------------------------------------
+        $(document).ready(function () {
+            $(".Son2").hide();
+            $('.Son1.delivery').click(function () {
+                $('.Son1').fadeTo('fast', 0.5);
+                $(".Son2").show('slow');
+            });
+
+            $('.Son1.takeout').click(function () {
+                $(".Son2").hide();
+            });
+
+            $('.Son1').mouseenter(function () {
+                $(this).fadeTo('fast', 1);
+            })
+
+            $('.Son1').mouseleave(function () {
+                $(this).fadeTo('fast', 0.3);
+            })
+        });
+    </script>
+}
+
+
+
+
+
+@*<div class="Son2">
+@using (Html.BeginForm("Tarjeta", "Orden", new { id = "1" }))
+{
+            <button onclick="myFunction()"> <img src="~/Images/CheckOut/creditCard.png" /> </button>
+            <h4>Tarjeta</h4>
+}
+</div>
+
+<div class="Son2">
+    @using (Html.BeginForm("Tarjeta", "Orden", new { id = "2" }))
+{
+            <button> <img src="~/Images/CheckOut/money.png" /> </button>
+            <h4>Efectivo</h4>
+}
+    </div>*@

@@ -1,0 +1,70 @@
+﻿@using System.Security.Cryptography.X509Certificates
+@model IEnumerable<DeliveriandoWebApp.Models.RestauranteModels>
+
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<div class="row-fluid news inline" style="margin-top:125px;">
+    <h2>Restaurantes</h2>
+</div>
+
+
+<link href="~/Content/owl.theme.css" rel="stylesheet" />
+<link href="~/Content/owl.carousel.css" rel="stylesheet" />
+
+<div id="owl-demo">
+@foreach (var item in Model)
+{
+
+          
+        <div class="item">
+            <a href=@Url.Action("Index", "Product", new { id = item.ID })> <img src="@item.LogoLink"/></a>
+            <h4 style=" margin-left: 5px; margin-top:-12px"> @Html.DisplayFor(modelItem => item.Nombre)</h4>
+        </div>
+
+
+    }
+</div>
+<h1 style="position: absolute;top: 40%;left: 20%;" >@ViewBag.MensageDeNoDisponible</h1>
+
+
+<style>
+#owl-demo .item{
+  margin: 3px;
+
+}
+#owl-demo .item img{
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top:-20px;
+}
+</style>
+
+@section Scripts{
+
+    <script src="~/Scripts/owl.carousel.js"></script>
+    <script> 
+        $(document).ready(function () {
+
+            $("#owl-demo").owlCarousel({
+
+                autoPlay: 3000, //Set AutoPlay to 3 seconds
+
+                items: 3,
+                itemsDesktop: [1199, 3],
+                itemsDesktopSmall: [979, 3]
+
+            });
+
+        });
+
+    </script>
+    
+  
+}
+

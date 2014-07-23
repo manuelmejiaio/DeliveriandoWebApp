@@ -1,0 +1,74 @@
+﻿@{
+    Layout = null;
+}
+
+
+    
+    @Scripts.Render("~/bundles/jquery")      
+    <div id="map_canvas" style="width: 90%; height: 420px;border-style:solid;border-width:5px;border-color:red">  </div>  
+ <script type="text/javascript">  
+   $(document).ready(function () {  
+       initialize();  
+   });  
+
+   function initialize() {
+
+     var coordenadas = @Html.Raw(Json.Encode(@ViewBag.Coordenadas));  //La lista de coordenadas
+       console.log(coordenadas);
+
+     var mapOptions = {  
+         center: new google.maps.LatLng("18.462884", "-69.936005"),
+         zoom: 13,
+         mapTypeId: google.maps.MapTypeId.ROADMAP  
+     };  
+     var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+
+
+     coordenadas.forEach(function (entry) {
+         marker = new google.maps.Marker({
+             position: new google.maps.LatLng(entry.Latitud, entry.Longitud),
+             map: map,
+             icon: detallesDeMarcadores(entry.IdRestaurante),
+             title: "Delivery: #" + entry.IdMotorista
+         });
+     });
+
+     function detallesDeMarcadores(IdRestaurante)
+     {
+         var markerLogo;
+
+         if(IdRestaurante == 1){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerYokomo.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+         
+         if(IdRestaurante == 2){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerChefPepper.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+
+         if(IdRestaurante == 3){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerPizzarelli.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+         
+         if(IdRestaurante == 4){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerRed.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+         
+         if(IdRestaurante == 5){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerKieroPatata.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+         
+         if(IdRestaurante == 6){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerKFC.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+         
+         if(IdRestaurante == 7){
+             markerLogo = new google.maps.MarkerImage("/Images/Marker/markerYao.png",
+             null, null,null, new google.maps.Size(54, 80));  }
+
+      
+         return markerLogo;
+     }
+
+      
+   }  
+ </script>  

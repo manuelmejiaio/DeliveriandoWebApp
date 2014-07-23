@@ -1,0 +1,55 @@
+﻿@model DeliveriandoWebApp.Models.RegisterModel
+@{
+    ViewBag.Title = "Regístrate";
+}
+
+<hgroup class="title">
+    <h1>@ViewBag.Title.</h1>
+    <h3>Crea una nueva cuenta.</h3>
+</hgroup>
+
+<section id="loginForm">
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary()
+
+    <fieldset>
+        <legend>Registration Form</legend>
+        
+                
+                <p>Correo Electrónico</p>
+                @Html.TextBoxFor(m => m.UserName,  new{placeholder="juanperez@gmail.com"})
+            
+                
+                <p>Nombre y Apellido</p>
+                @Html.TextBoxFor(m => m.UserFullName, new{placeholder="Juan Perez"})
+            
+                <p>Contraseña</p>
+                @Html.PasswordFor(m => m.Password, new{placeholder="*******"})
+            
+                <p>Confirmar Contraseña</p>
+                @Html.PasswordFor(m => m.ConfirmPassword , new{placeholder="*******"})
+            
+                <p>Dirección</p>
+                @Html.TextBoxFor(m => m.UserAddress,  new{placeholder="Ensanche Naco, calle Zeta, casa #32"})
+            
+                <p>Numero de teléfono residencial</p>
+                @Html.TextBoxFor(m => m.UserPhone,   new{placeholder="8095635567"})
+            
+            
+
+            @*    <li>
+                @Html.LabelFor(m => m.RestauranteID)
+                @Html.PasswordFor(m => m.RestauranteID)
+            </li>*@
+        <br>
+        <input type="submit" value="Registrar" />
+    </fieldset>
+}
+    
+</section>    
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

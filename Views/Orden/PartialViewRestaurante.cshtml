@@ -1,0 +1,55 @@
+﻿@using DeliveriandoWebApp.Models
+@using Microsoft.Ajax.Utilities
+@model IEnumerable<DeliveriandoWebApp.Models.OrdenModels>
+
+
+
+@{
+    Layout = null;
+}
+
+<div id="mitabla">
+<table>
+    <tr>
+        <th>&nbsp Alerta  &nbsp
+        </th>
+        <th>&nbsp Fecha  &nbsp
+        </th>
+        <th>&nbsp Teléfono  &nbsp
+        </th>
+        <th>&nbsp Total  &nbsp
+        </th>
+        <th>&nbsp Opciones  &nbsp
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.OrderByDescending(n => n.product.Fecha).GroupBy(n => n.IdOrdenesUnicas).Select(x => x.First())) //Para ordernar por fecha
+    {
+        double valor = item.finalTotal;
+        string finalTotal = valor.ToString("0.00"); //force para tener 2 cifras decimales fijas.
+        
+        <tr>
+            <td style="text-align:center">
+                &nbsp @Html.DisplayFor(modelItem => item.AlertaDeTiempo)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                &nbsp @Html.DisplayFor(modelItem => item.product.Fecha)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                &nbsp @Html.DisplayFor(modelItem => item.product.NumeroUsuario)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+
+            <td> 
+                &nbsp RD$ @Html.DisplayFor(modelItem => finalTotal)&nbsp;&nbsp;&nbsp;&nbsp;
+            </td>
+            <td>
+                &nbsp;<button class="btn" onclick="DetallesDeLaOrden(@item.id);">Detalles</button>|
+                <button class="btn" onclick="EnviarOrden(@item.id);">Enviar</button>|
+                <button class="btn" onclick="CancelarOrden(@item.id);">Cancelar</button>
+            </td>
+        </tr>
+    }
+
+</table>
+    </div>
